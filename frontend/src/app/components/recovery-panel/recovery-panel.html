@@ -1,0 +1,85 @@
+@if (result()) {
+  <div class="panel">
+    <div class="panel-section">
+      <h3 class="panel-title">Recovery Results</h3>
+      <div class="result-row">
+        <span class="result-label">Original Text</span>
+        <span class="result-value mono">{{ originalText() }}</span>
+      </div>
+      <div class="result-row">
+        <span class="result-label">Recovered Text</span>
+        <span class="result-value mono" [class.partial]="result()!.successRate < 1">{{
+          result()!.recoveredText
+        }}</span>
+      </div>
+      <div class="result-row">
+        <span class="result-label">Corrections Applied</span>
+        <span class="result-value accent">{{ result()!.corrections }}</span>
+      </div>
+    </div>
+
+    <div class="panel-section">
+      <h3 class="panel-title">Recovery Rate</h3>
+      <div class="gauge-bar">
+        <div
+          class="gauge-fill"
+          [class.success]="successPercent() >= 80"
+          [class.partial]="successPercent() >= 50 && successPercent() < 80"
+          [class.fail]="successPercent() < 50"
+          [style.width.%]="successPercent()"
+        ></div>
+      </div>
+      <div class="gauge-label">
+        <strong
+          [class.success-text]="successPercent() >= 80"
+          [class.warn-text]="successPercent() >= 50 && successPercent() < 80"
+          [class.fail-text]="successPercent() < 50"
+        >
+          {{ successPercent() }}% characters recovered correctly
+        </strong>
+      </div>
+    </div>
+
+    @if (metrics()) {
+      <div class="panel-section">
+        <h3 class="panel-title">Simulation Metrics</h3>
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-val">{{ metrics()!.errorCount }}</div>
+            <div class="metric-lbl">Total Errors</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-val">{{ metrics()!.affectedStrands }}</div>
+            <div class="metric-lbl">Affected Strands</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-val">{{ (metrics()!.errorRate * 100).toFixed(1) }}%</div>
+            <div class="metric-lbl">Error Rate</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-val">{{ result()!.corrections }}</div>
+            <div class="metric-lbl">Corrections</div>
+          </div>
+        </div>
+        @if (metrics()!.errorCount > 0) {
+          <div class="type-breakdown">
+            @for (type of errorTypeList; track type) {
+              @if (metrics()!.byType[type] > 0) {
+                <div class="type-row">
+                  <span [class]="'type-badge badge-' + type">{{ type }}</span>
+                  <div class="type-bar-wrap">
+                    <div
+                      class="type-bar-fill"
+                      [style.width.%]="(metrics()!.byType[type] / metrics()!.errorCount) * 100"
+                    ></div>
+                  </div>
+                  <span class="type-count">{{ metrics()!.byType[type] }}</span>
+                </div>
+              }
+            }
+          </div>
+        }
+      </div>
+    }
+  </div>
+}

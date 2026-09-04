@@ -1,0 +1,242 @@
+<div class="simulator">
+  <div class="sim-container">
+    <div class="sim-header">
+      <h1 class="sim-title">DNA Storage Simulator</h1>
+      <p class="sim-sub">
+        Encode text into DNA sequences, simulate errors, and apply recovery mechanisms
+      </p>
+    </div>
+
+    <app-step-progress [currentStep]="step()" />
+
+    @if (apiError()) {
+      <div class="api-error">{{ apiError() }}</div>
+    }
+
+    <div class="sim-content">
+      <!-- Step 1: Input -->
+      @if (step() === 'input') {
+        <div class="step-panel">
+          <h2 class="step-heading">Enter text to encode</h2>
+          <p class="step-desc">
+            Your text will be converted to binary (ASCII) and mapped to DNA bases. Each character
+            becomes a strand of 4 bases (2 bits/base). Max 60 characters.
+          </p>
+          <div class="input-area">
+            <textarea
+              class="text-input"
+              [value]="inputText()"
+              (input)="onInputChange($event)"
+              placeholder="Type something... e.g., Hello DNA!"
+              maxlength="60"
+              rows="3"
+            ></textarea>
+            <div class="input-meta">
+              <span class="char-hint"
+                >{{ charCount() }}/60 characters &rarr; {{ charCount() * 4 }} DNA bases</span
+              >
+            </div>
+          </div>
+          <div class="encoding-info">
+            <div class="info-title">Encoding Scheme (2 bits per base)</div>
+            <div class="base-legend">
+              @for (b of baseLegend; track b.base) {
+                <div class="legend-item">
+                  <span [class]="'base-tag b-' + b.base">{{ b.base }}</span>
+                  <span class="mono legend-bits">{{ b.bits }}</span>
+                </div>
+              }
+            </div>
+          </div>
+          <div class="step-actions">
+            <button
+              class="btn btn-primary"
+              (click)="onEncode()"
+              [disabled]="!inputText().trim() || requestPending()"
+            >
+              Encode to DNA &rarr;
+            </button>
+          </div>
+        </div>
+      }
+
+      <!-- Step 2: Encoded -->
+      @if (step() === 'encoded') {
+        <div class="step-panel">
+          <div class="step-header-row">
+            <h2 class="step-heading">DNA Sequence</h2>
+            <div class="step-badge">
+              {{ charCount() }} chars &rarr; {{ encodedBaseCount() }} bases
+            </div>
+          </div>
+          <p class="step-desc">
+            Each character is encoded as 4 DNA bases. The sequence represents "<strong
+              class="accent"
+              >{{ inputText() }}</strong
+            >".
+          </p>
+          <app-dna-sequence-viewer
+            [strands]="encodedStrands()"
+            mode="original"
+            [showLabels]="true"
+          />
+          <div class="step-actions">
+            <button class="btn btn-outline" (click)="onGoBack()">&#8592; Back</button>
+            <button class="btn btn-primary" (click)="onGoToErrors()">
+              Configure Errors &rarr;
+            </button>
+          </div>
+        </div>
+      }
+
+      <!-- Step 3: Errors -->
+      @if (step() === 'errors') {
+        <div class="step-panel">
+          @if (erroneousStrands().length === 0) {
+            <!-- Error config view -->
+            <h2 class="step-heading">Configure Error Simulation</h2>
+            <p class="step-desc">
+              Select error types and set the error rate. Click "Simulate Errors" to inject errors
+              into the DNA sequence.
+            </p>
+            <div class="errors-layout">
+              <div class="errors-left">
+                <app-error-controls [config]="config()" (configChange)="onConfigChange($event)" />
+              </div>
+              <div class="errors-right">
+                <div class="preview-card">
+                  <div class="preview-title">Original Sequence (Preview)</div>
+                  <app-dna-sequence-viewer
+                    [strands]="encodedStrands()"
+                    mode="original"
+                    [showLabels]="true"
+                    [compact]="true"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="step-actions">
+              <button class="btn btn-outline" (click)="onGoBack()">&#8592; Back</button>
+              <button
+                class="btn btn-danger"
+                (click)="onSimulateErrors()"
+                [disabled]="requestPending()"
+              >
+                &#9889; Simulate Errors
+              </button>
+            </div>
+          } @else {
+            <!-- Error results view -->
+            <div class="step-header-row">
+              <h2 class="step-heading">Error Simulation Results</h2>
+              @if (metrics()) {
+                <div class="step-badge error-badge">
+                  {{ metrics()!.errorCount }} errors in {{ metrics()!.affectedStrands }} strands
+                </div>
+              }
+            </div>
+            <p class="step-desc">Highlighted bases were modified from the original sequence.</p>
+
+            <div class="comparison-grid">
+              <div class="cmp-section">
+                <div class="cmp-label">Original</div>
+                <app-dna-sequence-viewer
+                  [strands]="encodedStrands()"
+                  mode="original"
+                  [showLabels]="true"
+                  [compact]="true"
+                />
+              </div>
+              <div class="cmp-section">
+                <div class="cmp-label error-label">After Errors</div>
+                <app-dna-sequence-viewer
+                  [strands]="erroneousStrands()"
+                  [originalStrands]="encodedStrands()"
+                  mode="errors"
+                  [showLabels]="true"
+                  [compact]="true"
+                />
+              </div>
+            </div>
+
+            @if (metrics() && metrics()!.errorCount > 0) {
+              <div class="error-stats">
+                @for (type of errorTypeKeys; track type) {
+                  @if (metrics()!.byType[type] > 0) {
+                    <div class="stat-chip">
+                      <span [class]="'etag etag-' + type">{{ type }}</span>
+                      <strong>{{ metrics()!.byType[type] }}</strong>
+                    </div>
+                  }
+                }
+              </div>
+            }
+
+            <div class="step-actions">
+              <button class="btn btn-outline" (click)="onGoBack()">&#8592; Reconfigure</button>
+              <button class="btn btn-success" (click)="onRecover()" [disabled]="requestPending()">
+                &#8635; Run Recovery
+              </button>
+            </div>
+          }
+        </div>
+      }
+
+      <!-- Step 4: Recovered -->
+      @if (step() === 'recovered') {
+        <div class="step-panel">
+          <h2 class="step-heading">Recovery Results</h2>
+          <p class="step-desc">
+            Side-by-side comparison: original, error-corrupted, and recovered sequences.
+          </p>
+
+          <div class="recovery-comparison">
+            <div class="cmp-col">
+              <div class="cmp-col-label">Original</div>
+              <div class="cmp-text mono">{{ inputText() }}</div>
+              <app-dna-sequence-viewer
+                [strands]="encodedStrands()"
+                mode="original"
+                [showLabels]="true"
+                [compact]="true"
+              />
+            </div>
+            <div class="cmp-col">
+              <div class="cmp-col-label error-label">After Errors</div>
+              <div class="cmp-text mono error-text">{{ erroneousText() }}</div>
+              <app-dna-sequence-viewer
+                [strands]="erroneousStrands()"
+                [originalStrands]="encodedStrands()"
+                mode="errors"
+                [showLabels]="true"
+                [compact]="true"
+              />
+            </div>
+            <div class="cmp-col">
+              <div class="cmp-col-label success-label">Recovered</div>
+              <div class="cmp-text mono success-text">{{ recoveryResult()?.recoveredText }}</div>
+              <app-dna-sequence-viewer
+                [strands]="recoveryResult()!.strands"
+                [originalStrands]="encodedStrands()"
+                mode="recovered"
+                [showLabels]="true"
+                [compact]="true"
+              />
+            </div>
+          </div>
+
+          <app-recovery-panel
+            [result]="recoveryResult()"
+            [metrics]="metrics()"
+            [originalText]="inputText()"
+          />
+
+          <div class="step-actions">
+            <button class="btn btn-outline" (click)="onGoBack()">&#8592; Back to Errors</button>
+            <button class="btn btn-primary" (click)="onReset()">New Simulation</button>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</div>

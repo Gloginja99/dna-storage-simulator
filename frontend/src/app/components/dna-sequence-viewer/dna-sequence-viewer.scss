@@ -1,0 +1,152 @@
+.viewer {
+  overflow-x: auto;
+}
+
+.empty {
+  color: #64748b;
+  font-size: 0.875rem;
+  padding: 1rem 0;
+  text-align: center;
+}
+
+.strands {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.625rem;
+}
+
+.strand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.625rem 0.5rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid #1e293b;
+  border-radius: 8px;
+  transition: border-color 0.2s;
+
+  &.has-error {
+    border-color: rgba(239, 68, 68, 0.3);
+    background: rgba(239, 68, 68, 0.04);
+  }
+}
+
+.char-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #94a3b8;
+  min-width: 1.5rem;
+  text-align: center;
+}
+
+.bases {
+  display: flex;
+  gap: 3px;
+}
+
+.base {
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  font-weight: 700;
+  transition: all 0.2s;
+
+  &-A {
+    background: rgba(34, 197, 94, 0.12);
+    color: #22c55e;
+    border: 1px solid rgba(34, 197, 94, 0.25);
+  }
+  &-T {
+    background: rgba(239, 68, 68, 0.12);
+    color: #ef4444;
+    border: 1px solid rgba(239, 68, 68, 0.25);
+  }
+  &-C {
+    background: rgba(59, 130, 246, 0.12);
+    color: #3b82f6;
+    border: 1px solid rgba(59, 130, 246, 0.25);
+  }
+  &-G {
+    background: rgba(234, 179, 8, 0.12);
+    color: #eab308;
+    border: 1px solid rgba(234, 179, 8, 0.25);
+  }
+
+  &.modified {
+    box-shadow: 0 0 6px currentColor;
+    animation: pulse-err 1.5s infinite;
+  }
+
+  &.extra {
+    border-style: dashed;
+    opacity: 0.7;
+  }
+}
+
+.err-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  justify-content: center;
+}
+
+.etag {
+  font-size: 0.6rem;
+  font-weight: 600;
+  padding: 1px 4px;
+  border-radius: 3px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+
+  &-substitution {
+    background: rgba(234, 179, 8, 0.12);
+    color: #eab308;
+  }
+  &-insertion {
+    background: rgba(59, 130, 246, 0.12);
+    color: #3b82f6;
+  }
+  &-deletion {
+    background: rgba(239, 68, 68, 0.12);
+    color: #ef4444;
+  }
+  &-burst {
+    background: rgba(168, 85, 247, 0.12);
+    color: #a855f7;
+  }
+  &-dropout {
+    background: rgba(100, 116, 139, 0.12);
+    color: #94a3b8;
+  }
+}
+
+@keyframes pulse-err {
+  0%,
+  100% {
+    box-shadow: 0 0 4px currentColor;
+  }
+  50% {
+    box-shadow: 0 0 10px currentColor;
+  }
+}
+
+.compact {
+  .strand {
+    padding: 0.375rem 0.3rem;
+  }
+  .base {
+    width: 18px;
+    height: 18px;
+    font-size: 0.65rem;
+  }
+  .char-label {
+    font-size: 0.75rem;
+  }
+}

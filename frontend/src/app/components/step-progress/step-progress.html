@@ -1,0 +1,17 @@
+<div class="progress">
+  @for (step of steps; track step.key; let i = $index) {
+    <div class="step" [class.completed]="isCompleted(step)" [class.active]="isActive(step)">
+      <div class="step-circle">
+        @if (isCompleted(step)) {
+          <span>&#10003;</span>
+        } @else {
+          <span>{{ i + 1 }}</span>
+        }
+      </div>
+      <span class="step-label">{{ step.label }}</span>
+    </div>
+    @if (i < steps.length - 1) {
+      <div class="step-line" [class.completed]="isCompleted(step)"></div>
+    }
+  }
+</div>

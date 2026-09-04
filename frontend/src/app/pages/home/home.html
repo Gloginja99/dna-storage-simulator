@@ -1,0 +1,134 @@
+<div class="home">
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-bg"><div class="grid-overlay"></div></div>
+    <div class="hero-content">
+      <div class="hero-badge">Bachelor&rsquo;s Thesis &middot; MEAN Stack</div>
+      <h1 class="hero-title">DNA Data Storage<br /><span class="gradient">Simulator</span></h1>
+      <p class="hero-desc">
+        Encode digital data into synthetic DNA sequences. Simulate real-world storage errors. Apply
+        recovery mechanisms. Visualize every step of the process.
+      </p>
+      <div class="hero-actions">
+        <a routerLink="/simulator" class="btn-primary">Launch Simulator &rarr;</a>
+        <a routerLink="/about" class="btn-outline">Learn More</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat">
+          <div class="stat-val">5</div>
+          <div class="stat-lbl">Error Types</div>
+        </div>
+        <div class="stat-sep"></div>
+        <div class="stat">
+          <div class="stat-val">4</div>
+          <div class="stat-lbl">DNA Bases</div>
+        </div>
+        <div class="stat-sep"></div>
+        <div class="stat">
+          <div class="stat-val">2 bit</div>
+          <div class="stat-lbl">Per Base</div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="dna-viz">
+        @for (pair of helixPairs; track pair.id) {
+          <div class="helix-row" [style]="'--i:' + pair.id">
+            <div class="helix-node" [class]="'node-' + pair.left">{{ pair.left }}</div>
+            <div class="helix-bond"></div>
+            <div class="helix-node" [class]="'node-' + pair.right">{{ pair.right }}</div>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section class="how">
+    <div class="how-container">
+      <div class="section-header">
+        <h2>How It Works</h2>
+        <p>A three-stage pipeline modeling the full DNA storage lifecycle</p>
+      </div>
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-num">01</div>
+          <h3>Encode</h3>
+          <p>
+            Text is converted to binary (ASCII) and each 2-bit pair maps to a DNA base. Each
+            character becomes a 4-base strand.
+          </p>
+          <div class="step-demo">
+            <span class="demo-char">&quot;H&quot;</span>
+            <span class="arr">&rarr;</span>
+            <span class="demo-bin">01001000</span>
+            <span class="arr">&rarr;</span>
+            <div class="demo-bases">
+              <span class="db b-T">T</span><span class="db b-C">C</span><span class="db b-C">C</span
+              ><span class="db b-A">A</span>
+            </div>
+          </div>
+        </div>
+        <div class="step-card">
+          <div class="step-num step-num-err">02</div>
+          <h3>Simulate Errors</h3>
+          <p>
+            Inject realistic DNA storage errors: substitutions, insertions, deletions, burst errors,
+            and sequence dropouts.
+          </p>
+          <div class="error-tags-grid">
+            <span class="etag et-sub">Substitution</span>
+            <span class="etag et-ins">Insertion</span>
+            <span class="etag et-del">Deletion</span>
+            <span class="etag et-bur">Burst</span>
+            <span class="etag et-drop">Dropout</span>
+          </div>
+        </div>
+        <div class="step-card">
+          <div class="step-num step-num-rec">03</div>
+          <h3>Recover</h3>
+          <p>
+            Apply error detection and correction. Analyze recovery rates, compare original vs.
+            recovered sequences, and review statistics.
+          </p>
+          <div class="recovery-bar-demo">
+            <div class="rbd-label">Recovery Rate</div>
+            <div class="rbd-bar"><div class="rbd-fill"></div></div>
+            <div class="rbd-pct">~87%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Base encoding -->
+  <section class="bases">
+    <div class="bases-container">
+      <div class="section-header">
+        <h2>DNA Base Encoding</h2>
+        <p>Each ASCII character (8 bits) maps to 4 DNA bases at 2 bits per base</p>
+      </div>
+      <div class="bases-grid">
+        @for (b of baseLegend; track b.base) {
+          <div class="base-card">
+            <div [class]="'base-icon b-' + b.base">{{ b.base }}</div>
+            <div class="base-info">
+              <div class="base-bits">{{ b.bits }}</div>
+              <div class="base-name">{{ b.name }}</div>
+              <div class="base-complement">&harr; {{ b.complement }}</div>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta">
+    <div class="cta-container">
+      <h2>Start exploring DNA data storage</h2>
+      <p>Encode your own text, inject errors, and see how recovery mechanisms work.</p>
+      <a routerLink="/simulator" class="btn-primary">Open Simulator &rarr;</a>
+    </div>
+  </section>
+</div>

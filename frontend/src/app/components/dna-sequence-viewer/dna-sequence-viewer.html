@@ -1,0 +1,29 @@
+<div class="viewer" [class.compact]="compact()">
+  @if (strands().length === 0) {
+    <div class="empty">No sequence to display</div>
+  } @else {
+    <div class="strands">
+      @for (strand of strands(); track strand.id) {
+        <div class="strand" [class.has-error]="strand.hasError && mode() === 'errors'">
+          @if (showLabels()) {
+            <div class="char-label">
+              {{ strand.originalChar === ' ' ? '&#9141;' : strand.originalChar }}
+            </div>
+          }
+          <div class="bases">
+            @for (base of strand.bases; track $index) {
+              <span [class]="'base ' + getBaseClass(strand, base, $index)">{{ base }}</span>
+            }
+          </div>
+          @if (strand.hasError && mode() === 'errors') {
+            <div class="err-badges">
+              @for (et of strand.errorTypes; track et) {
+                <span [class]="'etag etag-' + et">{{ et }}</span>
+              }
+            </div>
+          }
+        </div>
+      }
+    </div>
+  }
+</div>

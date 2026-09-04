@@ -1,0 +1,19 @@
+<nav class="nav">
+  <div class="nav-container">
+    <a routerLink="/" class="nav-logo">
+      <div class="logo-dna">
+        <span class="b-A">A</span><span class="b-T">T</span><span class="b-C">C</span
+        ><span class="b-G">G</span>
+      </div>
+      <span class="logo-text">DNA<strong>Sim</strong></span>
+    </a>
+    <div class="nav-links">
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+        >Home</a
+      >
+      <a routerLink="/simulator" routerLinkActive="active">Simulator</a>
+      <a routerLink="/about" routerLinkActive="active">About</a>
+    </div>
+    <a routerLink="/simulator" class="btn-launch">Launch Simulator &rarr;</a>
+  </div>
+</nav>
