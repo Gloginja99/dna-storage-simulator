@@ -1,25 +1,25 @@
 @if (result()) {
   <div class="panel">
     <div class="panel-section">
-      <h3 class="panel-title">Recovery Results</h3>
+      <h3 class="panel-title">{{ 'recoveryPanel.resultsTitle' | translate }}</h3>
       <div class="result-row">
-        <span class="result-label">Original Text</span>
+        <span class="result-label">{{ 'recoveryPanel.originalText' | translate }}</span>
         <span class="result-value mono">{{ originalText() }}</span>
       </div>
       <div class="result-row">
-        <span class="result-label">Recovered Text</span>
+        <span class="result-label">{{ 'recoveryPanel.recoveredText' | translate }}</span>
         <span class="result-value mono" [class.partial]="result()!.successRate < 1">{{
           result()!.recoveredText
         }}</span>
       </div>
       <div class="result-row">
-        <span class="result-label">Corrections Applied</span>
+        <span class="result-label">{{ 'recoveryPanel.corrections' | translate }}</span>
         <span class="result-value accent">{{ result()!.corrections }}</span>
       </div>
     </div>
 
     <div class="panel-section">
-      <h3 class="panel-title">Recovery Rate</h3>
+      <h3 class="panel-title">{{ 'recoveryPanel.rateTitle' | translate }}</h3>
       <div class="gauge-bar">
         <div
           class="gauge-fill"
@@ -35,30 +35,30 @@
           [class.warn-text]="successPercent() >= 50 && successPercent() < 80"
           [class.fail-text]="successPercent() < 50"
         >
-          {{ successPercent() }}% characters recovered correctly
+          {{ successPercent() }}{{ 'recoveryPanel.rateLabel' | translate }}
         </strong>
       </div>
     </div>
 
     @if (metrics()) {
       <div class="panel-section">
-        <h3 class="panel-title">Simulation Metrics</h3>
+        <h3 class="panel-title">{{ 'recoveryPanel.metricsTitle' | translate }}</h3>
         <div class="metrics-grid">
           <div class="metric-card">
             <div class="metric-val">{{ metrics()!.errorCount }}</div>
-            <div class="metric-lbl">Total Errors</div>
+            <div class="metric-lbl">{{ 'recoveryPanel.totalErrors' | translate }}</div>
           </div>
           <div class="metric-card">
             <div class="metric-val">{{ metrics()!.affectedStrands }}</div>
-            <div class="metric-lbl">Affected Strands</div>
+            <div class="metric-lbl">{{ 'recoveryPanel.affectedStrands' | translate }}</div>
           </div>
           <div class="metric-card">
             <div class="metric-val">{{ (metrics()!.errorRate * 100).toFixed(1) }}%</div>
-            <div class="metric-lbl">Error Rate</div>
+            <div class="metric-lbl">{{ 'recoveryPanel.errorRate' | translate }}</div>
           </div>
           <div class="metric-card">
             <div class="metric-val">{{ result()!.corrections }}</div>
-            <div class="metric-lbl">Corrections</div>
+            <div class="metric-lbl">{{ 'recoveryPanel.correctionsLabel' | translate }}</div>
           </div>
         </div>
         @if (metrics()!.errorCount > 0) {
@@ -66,7 +66,9 @@
             @for (type of errorTypeList; track type) {
               @if (metrics()!.byType[type] > 0) {
                 <div class="type-row">
-                  <span [class]="'type-badge badge-' + type">{{ type }}</span>
+                  <span [class]="'type-badge badge-' + type">{{
+                    'errorTypes.' + type | translate
+                  }}</span>
                   <div class="type-bar-wrap">
                     <div
                       class="type-bar-fill"

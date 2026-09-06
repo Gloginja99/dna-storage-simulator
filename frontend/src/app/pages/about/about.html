@@ -1,85 +1,77 @@
 <div class="about">
   <div class="about-container">
     <div class="about-header">
-      <div class="about-badge">Bachelor&rsquo;s Thesis</div>
-      <h1>About This Project</h1>
+      <div class="about-badge">{{ 'about.badge' | translate }}</div>
+      <h1>{{ 'about.title' | translate }}</h1>
       <p>
-        Implementation of a DNA Data Storage Simulator with Error Simulation and Recovery Mechanisms
+        {{ 'about.subtitle' | translate }}
       </p>
     </div>
 
     <div class="about-grid">
       <div class="about-main">
         <div class="section-card">
-          <h2>Project Overview</h2>
+          <h2>{{ 'about.overview.title' | translate }}</h2>
           <p>
-            This simulator models encoding digital data into synthetic DNA, simulating the
-            real-world errors that occur during synthesis and sequencing, and applying correction
-            mechanisms to recover the original data.
+            {{ 'about.overview.p1' | translate }}
           </p>
           <p>
-            DNA-based storage can theoretically hold 215 petabytes per gram, but practical
-            implementations suffer from various error types that degrade data integrity. This
-            simulator helps visualize and analyze these failure modes.
+            {{ 'about.overview.p2' | translate }}
           </p>
         </div>
 
         <div class="section-card">
-          <h2>Error Types Simulated</h2>
+          <h2>{{ 'about.errors.title' | translate }}</h2>
           <div class="error-list">
             <div class="error-item">
-              <span class="etag et-sub">Substitution</span>
+              <span class="etag et-sub">{{ 'errorTypes.substitution' | translate }}</span>
               <div class="error-desc">
-                <strong>Base Replacement</strong>
+                <strong>{{ 'about.errors.substitution.title' | translate }}</strong>
                 <p>
-                  A nucleotide is incorrectly read or synthesized, replacing one base with another
-                  (e.g., A&rarr;T).
+                  {{ 'about.errors.substitution.desc' | translate }}
                 </p>
               </div>
             </div>
             <div class="error-item">
-              <span class="etag et-ins">Insertion</span>
+              <span class="etag et-ins">{{ 'errorTypes.insertion' | translate }}</span>
               <div class="error-desc">
-                <strong>Base Insertion</strong>
+                <strong>{{ 'about.errors.insertion.title' | translate }}</strong>
                 <p>
-                  An extra nucleotide is introduced into the sequence, causing a frameshift in all
-                  subsequent bases.
+                  {{ 'about.errors.insertion.desc' | translate }}
                 </p>
               </div>
             </div>
             <div class="error-item">
-              <span class="etag et-del">Deletion</span>
+              <span class="etag et-del">{{ 'errorTypes.deletion' | translate }}</span>
               <div class="error-desc">
-                <strong>Base Loss</strong>
+                <strong>{{ 'about.errors.deletion.title' | translate }}</strong>
                 <p>
-                  A nucleotide is lost from the sequence, causing a frameshift that corrupts all
-                  downstream bases.
+                  {{ 'about.errors.deletion.desc' | translate }}
                 </p>
               </div>
             </div>
             <div class="error-item">
-              <span class="etag et-bur">Burst</span>
+              <span class="etag et-bur">{{ 'errorTypes.burst' | translate }}</span>
               <div class="error-desc">
-                <strong>Burst Errors</strong>
+                <strong>{{ 'about.errors.burst.title' | translate }}</strong>
                 <p>
-                  Multiple consecutive bases are corrupted in a cluster, modeling synthesis cluster
-                  failures.
+                  {{ 'about.errors.burst.desc' | translate }}
                 </p>
               </div>
             </div>
             <div class="error-item">
-              <span class="etag et-drop">Dropout</span>
+              <span class="etag et-drop">{{ 'errorTypes.dropout' | translate }}</span>
               <div class="error-desc">
-                <strong>Sequence Dropout</strong>
-                <p>An entire DNA strand is lost or becomes unreadable, simulating oligo dropout.</p>
+                <strong>{{ 'about.errors.dropout.title' | translate }}</strong>
+                <p>{{ 'about.errors.dropout.desc' | translate }}</p>
               </div>
             </div>
           </div>
         </div>
 
         <div class="section-card">
-          <h2>Encoding Scheme</h2>
-          <p>The simulator uses a direct binary-to-base mapping (2 bits per base):</p>
+          <h2>{{ 'about.encoding.title' | translate }}</h2>
+          <p>{{ 'about.encoding.p1' | translate }}</p>
           <div class="code-block">
             <div class="code-row">
               <span class="code-key">00 &rarr; A</span><span class="code-val">(Adenine)</span>
@@ -94,60 +86,66 @@
               <span class="code-key">11 &rarr; G</span><span class="code-val">(Guanine)</span>
             </div>
           </div>
-          <p>Each ASCII character (8 bits) becomes 4 DNA bases. One strand = one character.</p>
+          <p>{{ 'about.encoding.p2' | translate }}</p>
         </div>
       </div>
 
       <div class="about-side">
         <div class="tech-card">
-          <h3>Technology Stack</h3>
+          <h3>{{ 'about.tech.title' | translate }}</h3>
           <div class="tech-list">
             <div class="tech-item">
               <div class="tech-icon ang">Ng</div>
               <div>
-                <div class="tech-name">Angular 22</div>
-                <div class="tech-sub">Frontend Framework</div>
+                <div class="tech-name">{{ 'about.tech.angular' | translate }}</div>
+                <div class="tech-sub">{{ 'about.tech.angularSub' | translate }}</div>
               </div>
             </div>
             <div class="tech-item">
               <div class="tech-icon node">N</div>
               <div>
-                <div class="tech-name">Node.js / Express</div>
-                <div class="tech-sub">Backend (planned)</div>
+                <div class="tech-name">{{ 'about.tech.node' | translate }}</div>
+                <div class="tech-sub">{{ 'about.tech.nodeSub' | translate }}</div>
               </div>
             </div>
             <div class="tech-item">
               <div class="tech-icon mongo">M</div>
               <div>
-                <div class="tech-name">MongoDB</div>
-                <div class="tech-sub">Database (planned)</div>
+                <div class="tech-name">{{ 'about.tech.mongo' | translate }}</div>
+                <div class="tech-sub">{{ 'about.tech.mongoSub' | translate }}</div>
               </div>
             </div>
           </div>
         </div>
 
         <div class="status-card">
-          <h3>Development Status</h3>
+          <h3>{{ 'about.status.title' | translate }}</h3>
           <div class="status-list">
             <div class="status-item done">
-              <span class="status-dot"></span>DNA Encoding / Decoding
+              <span class="status-dot"></span>{{ 'about.status.encoding' | translate }}
             </div>
-            <div class="status-item done"><span class="status-dot"></span>Error Simulation</div>
             <div class="status-item done">
-              <span class="status-dot"></span>Error Recovery (basic)
+              <span class="status-dot"></span>{{ 'about.status.errorSim' | translate }}
             </div>
-            <div class="status-item done"><span class="status-dot"></span>Visual Interface</div>
-            <div class="status-item planned"><span class="status-dot"></span>Backend API</div>
-            <div class="status-item planned">
-              <span class="status-dot"></span>User Authentication
+            <div class="status-item done">
+              <span class="status-dot"></span>{{ 'about.status.recovery' | translate }}
+            </div>
+            <div class="status-item done">
+              <span class="status-dot"></span>{{ 'about.status.ui' | translate }}
+            </div>
+            <div class="status-item done">
+              <span class="status-dot"></span>{{ 'about.status.backend' | translate }}
             </div>
             <div class="status-item planned">
-              <span class="status-dot"></span>Simulation History
+              <span class="status-dot"></span>{{ 'about.status.auth' | translate }}
+            </div>
+            <div class="status-item planned">
+              <span class="status-dot"></span>{{ 'about.status.history' | translate }}
             </div>
           </div>
         </div>
 
-        <a routerLink="/simulator" class="cta-link">Try the Simulator &rarr;</a>
+        <a routerLink="/simulator" class="cta-link">{{ 'about.cta' | translate }}</a>
       </div>
     </div>
   </div>

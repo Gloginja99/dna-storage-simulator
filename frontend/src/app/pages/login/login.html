@@ -1,0 +1,44 @@
+<div class="auth-page">
+  <div class="auth-card">
+    <h1 class="auth-title">{{ 'auth.login.title' | translate }}</h1>
+    <p class="auth-subtitle">{{ 'auth.login.subtitle' | translate }}</p>
+
+    @if (error()) {
+      <div class="auth-error">{{ error() }}</div>
+    }
+
+    <form class="auth-form" (ngSubmit)="onSubmit()">
+      <label class="field">
+        <span class="field-label">{{ 'auth.login.email' | translate }}</span>
+        <input
+          type="email"
+          name="email"
+          required
+          [ngModel]="email()"
+          (ngModelChange)="email.set($event)"
+          class="field-input"
+        />
+      </label>
+      <label class="field">
+        <span class="field-label">{{ 'auth.login.password' | translate }}</span>
+        <input
+          type="password"
+          name="password"
+          required
+          minlength="6"
+          [ngModel]="password()"
+          (ngModelChange)="password.set($event)"
+          class="field-input"
+        />
+      </label>
+      <button type="submit" class="btn-submit" [disabled]="pending()">
+        {{ 'auth.login.submit' | translate }}
+      </button>
+    </form>
+
+    <p class="auth-switch">
+      {{ 'auth.login.noAccount' | translate }}
+      <a routerLink="/register">{{ 'auth.login.registerLink' | translate }}</a>
+    </p>
+  </div>
+</div>

@@ -1,0 +1,43 @@
+<div class="history-page">
+  <div class="history-container">
+    <div class="history-header">
+      <h1>{{ 'history.title' | translate }}</h1>
+      <p>{{ 'history.subtitle' | translate }}</p>
+    </div>
+
+    @if (!loading() && simulations().length === 0) {
+      <div class="empty-state">
+        <p>{{ 'history.empty' | translate }}</p>
+        <a routerLink="/simulator" class="btn-primary">{{ 'history.emptyCta' | translate }}</a>
+      </div>
+    }
+
+    <div class="history-list">
+      @for (sim of simulations(); track sim.id) {
+        <div class="history-card">
+          <div class="history-card-main">
+            <div class="history-name">{{ sim.name }}</div>
+            <div class="history-text mono">{{ sim.inputText }}</div>
+            <div class="history-meta">
+              <span
+                >{{ 'history.successRate' | translate }}:
+                {{ (sim.successRate * 100).toFixed(0) }}%</span
+              >
+              <span
+                >{{ 'history.createdAt' | translate }}: {{ sim.createdAt | date: 'short' }}</span
+              >
+            </div>
+          </div>
+          <div class="history-card-actions">
+            <button class="btn-open" (click)="open(sim.id)">
+              {{ 'history.load' | translate }}
+            </button>
+            <button class="btn-delete" (click)="remove(sim.id)">
+              {{ 'history.delete' | translate }}
+            </button>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</div>

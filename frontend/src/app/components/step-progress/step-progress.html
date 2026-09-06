@@ -8,7 +8,7 @@
           <span>{{ i + 1 }}</span>
         }
       </div>
-      <span class="step-label">{{ step.label }}</span>
+      <span class="step-label">{{ step.labelKey | translate }}</span>
     </div>
     @if (i < steps.length - 1) {
       <div class="step-line" [class.completed]="isCompleted(step)"></div>

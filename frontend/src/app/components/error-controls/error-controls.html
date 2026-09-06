@@ -1,9 +1,10 @@
 <div class="controls">
-  <h3 class="ctrl-title">Error Configuration</h3>
+  <h3 class="ctrl-title">{{ 'errorControls.title' | translate }}</h3>
 
   <div class="ctrl-group">
     <div class="ctrl-label">
-      Error Rate: <strong>{{ (config().errorRate * 100).toFixed(0) }}%</strong>
+      {{ 'errorControls.rateLabel' | translate }}:
+      <strong>{{ (config().errorRate * 100).toFixed(0) }}%</strong>
     </div>
     <input
       type="range"
@@ -18,7 +19,7 @@
   </div>
 
   <div class="ctrl-group">
-    <div class="ctrl-label">Error Types</div>
+    <div class="ctrl-label">{{ 'errorControls.typesLabel' | translate }}</div>
     <div class="checkboxes">
       @for (type of errorTypes; track type.key) {
         <label class="checkbox-item">
@@ -27,8 +28,10 @@
             [checked]="config()[type.key]"
             (change)="update(type.key, $any($event.target).checked)"
           />
-          <span [class]="'type-badge badge-' + type.errorType">{{ type.label }}</span>
-          <span class="type-desc">{{ type.desc }}</span>
+          <span [class]="'type-badge badge-' + type.errorType">{{
+            type.labelKey | translate
+          }}</span>
+          <span class="type-desc">{{ type.descKey | translate }}</span>
         </label>
       }
     </div>
@@ -37,7 +40,7 @@
   @if (config().enableBurst) {
     <div class="ctrl-group">
       <div class="ctrl-label">
-        Burst Length: <strong>{{ config().burstLength }}</strong>
+        {{ 'errorControls.burstLabel' | translate }}: <strong>{{ config().burstLength }}</strong>
       </div>
       <input
         type="range"

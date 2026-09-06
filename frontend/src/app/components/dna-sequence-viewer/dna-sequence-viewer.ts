@@ -1,9 +1,10 @@
 import { Component, input } from '@angular/core';
+import { TranslatePipe } from '../../pipes/translate.pipe';
 import { DnaStrand, DnaBase } from '../../models/simulation.models';
 
 @Component({
   selector: 'app-dna-sequence-viewer',
-  imports: [],
+  imports: [TranslatePipe],
   templateUrl: './dna-sequence-viewer.html',
   styleUrl: './dna-sequence-viewer.scss',
 })
@@ -13,6 +14,7 @@ export class DnaSequenceViewer {
   mode = input<'original' | 'errors' | 'recovered'>('original');
   showLabels = input(true);
   compact = input(false);
+  animate = input(false);
 
   isModified(strand: DnaStrand, baseIndex: number): boolean {
     if (this.mode() === 'original') return false;

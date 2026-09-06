@@ -1,8 +1,13 @@
-import { Component, signal, inject, computed } from '@angular/core';
+import { Component, signal, inject, computed, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { DnaEncoder } from '../../services/dna-encoder';
 import { ErrorSimulator } from '../../services/error-simulator';
 import { Recovery } from '../../services/recovery';
+import { I18nService } from '../../services/i18n.service';
+import { AuthService } from '../../services/auth.service';
+import { HistoryService } from '../../services/history.service';
+import { TranslatePipe } from '../../pipes/translate.pipe';
 import { DnaSequenceViewer } from '../../components/dna-sequence-viewer/dna-sequence-viewer';
 import { ErrorControls } from '../../components/error-controls/error-controls';
 import { RecoveryPanel } from '../../components/recovery-panel/recovery-panel';
@@ -29,14 +34,20 @@ const DEFAULT_CONFIG: SimulationConfig = {
 
 @Component({
   selector: 'app-simulator',
-  imports: [DnaSequenceViewer, ErrorControls, RecoveryPanel, StepProgress],
+  imports: [DnaSequenceViewer, ErrorControls, RecoveryPanel, StepProgress, TranslatePipe],
   templateUrl: './simulator.html',
   styleUrl: './simulator.scss',
 })
-export class Simulator {
+export class Simulator implements OnInit {
   private encoder = inject(DnaEncoder);
   private errorSim = inject(ErrorSimulator);
   private recovery = inject(Recovery);
+  private i18n = inject(I18nService);
+  private auth = inject(AuthService);
+  private historyService = inject(HistoryService);
+  private route = inject(ActivatedRoute);
+
+  readonly isLoggedIn = this.auth.isLoggedIn;
 
   step = signal<SimulationStep>('input');
   inputText = signal('Hello DNA!');
@@ -49,6 +60,10 @@ export class Simulator {
   requestPending = signal(false);
   apiError = signal<string | null>(null);
   config = signal<SimulationConfig>({ ...DEFAULT_CONFIG });
+
+  showSaveModal = signal(false);
+  saveName = signal('');
+  saveSuccess = signal(false);
 
   charCount = computed(() => this.inputText().trim().length);
   encodedBaseCount = computed(() => this.encodedStrands().length * 4);
@@ -84,7 +99,7 @@ export class Simulator {
       this.recoveryResult.set(null);
       this.step.set('encoded');
     } catch {
-      this.apiError.set('Failed to encode. Make sure backend is running on port 3000.');
+      this.apiError.set(this.i18n.t('simulator.apiErrorEncode'));
     } finally {
       this.requestPending.set(false);
     }
@@ -108,7 +123,7 @@ export class Simulator {
       this.metrics.set(response.metrics);
       this.step.set('errors');
     } catch {
-      this.apiError.set('Failed to simulate errors. Please try again.');
+      this.apiError.set(this.i18n.t('simulator.apiErrorSimulate'));
     } finally {
       this.requestPending.set(false);
     }
@@ -125,7 +140,7 @@ export class Simulator {
       this.recoveryResult.set(response);
       this.step.set('recovered');
     } catch {
-      this.apiError.set('Failed to recover data. Please try again.');
+      this.apiError.set(this.i18n.t('simulator.apiErrorRecover'));
     } finally {
       this.requestPending.set(false);
     }
@@ -158,5 +173,72 @@ export class Simulator {
   }
   onInputChange(e: Event) {
     this.inputText.set((e.target as HTMLTextAreaElement).value);
+  }
+
+  ngOnInit(): void {
+    const loadId = this.route.snapshot.queryParamMap.get('load');
+    if (loadId) {
+      this.loadFromHistory(loadId);
+    }
+  }
+
+  private loadFromHistory(id: string) {
+    this.requestPending.set(true);
+    this.historyService.getById(id).subscribe({
+      next: (detail) => {
+        this.inputText.set(detail.inputText);
+        this.config.set(detail.config);
+        this.encodedStrands.set(detail.encodedStrands);
+        this.erroneousStrands.set(detail.erroneousStrands);
+        this.erroneousText.set(detail.erroneousText);
+        this.recoveryResult.set({
+          strands: detail.erroneousStrands,
+          corrections: detail.corrections,
+          recoveredText: detail.recoveredText,
+          successRate: detail.successRate,
+        });
+        this.step.set('recovered');
+        this.requestPending.set(false);
+      },
+      error: () => this.requestPending.set(false),
+    });
+  }
+
+  openSaveModal() {
+    this.saveName.set(`${this.inputText().slice(0, 20)}`);
+    this.saveSuccess.set(false);
+    this.showSaveModal.set(true);
+  }
+
+  closeSaveModal() {
+    this.showSaveModal.set(false);
+  }
+
+  onSaveNameChange(e: Event) {
+    this.saveName.set((e.target as HTMLInputElement).value);
+  }
+
+  confirmSave() {
+    const name = this.saveName().trim();
+    if (!name) return;
+    const recovery = this.recoveryResult();
+    if (!recovery) return;
+
+    this.historyService
+      .save({
+        name,
+        inputText: this.inputText(),
+        config: this.config(),
+        encodedStrands: this.encodedStrands(),
+        erroneousStrands: this.erroneousStrands(),
+        erroneousText: this.erroneousText(),
+        recoveredText: recovery.recoveredText,
+        corrections: recovery.corrections,
+        successRate: recovery.successRate,
+      })
+      .subscribe(() => {
+        this.saveSuccess.set(true);
+        setTimeout(() => this.showSaveModal.set(false), 1200);
+      });
   }
 }

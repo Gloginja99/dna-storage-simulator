@@ -1,24 +1,35 @@
 <div class="viewer" [class.compact]="compact()">
   @if (strands().length === 0) {
-    <div class="empty">No sequence to display</div>
+    <div class="empty">{{ 'viewer.empty' | translate }}</div>
   } @else {
     <div class="strands">
-      @for (strand of strands(); track strand.id) {
-        <div class="strand" [class.has-error]="strand.hasError && mode() === 'errors'">
+      @for (strand of strands(); track strand.id; let si = $index) {
+        <div
+          class="strand"
+          [class.has-error]="strand.hasError && mode() === 'errors'"
+          [class.building]="animate()"
+          [style.animation-delay.ms]="animate() ? si * 90 : null"
+        >
           @if (showLabels()) {
             <div class="char-label">
               {{ strand.originalChar === ' ' ? '&#9141;' : strand.originalChar }}
             </div>
           }
           <div class="bases">
-            @for (base of strand.bases; track $index) {
-              <span [class]="'base ' + getBaseClass(strand, base, $index)">{{ base }}</span>
+            @for (base of strand.bases; track $index; let bi = $index) {
+              <span
+                [class]="
+                  'base ' + getBaseClass(strand, base, bi) + (animate() ? ' base-build' : '')
+                "
+                [style.animation-delay.ms]="animate() ? si * 90 + bi * 45 : null"
+                >{{ base }}</span
+              >
             }
           </div>
           @if (strand.hasError && mode() === 'errors') {
             <div class="err-badges">
               @for (et of strand.errorTypes; track et) {
-                <span [class]="'etag etag-' + et">{{ et }}</span>
+                <span [class]="'etag etag-' + et">{{ 'errorTypes.' + et | translate }}</span>
               }
             </div>
           }

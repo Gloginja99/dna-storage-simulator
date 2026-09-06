@@ -1,21 +1,22 @@
 import { Component, input, computed } from '@angular/core';
+import { TranslatePipe } from '../../pipes/translate.pipe';
 import { SimulationStep } from '../../models/simulation.models';
 
 interface Step {
   key: SimulationStep;
-  label: string;
+  labelKey: string;
 }
 
 const STEPS: Step[] = [
-  { key: 'input', label: 'Input' },
-  { key: 'encoded', label: 'Encoded' },
-  { key: 'errors', label: 'Errors' },
-  { key: 'recovered', label: 'Recovered' },
+  { key: 'input', labelKey: 'steps.input' },
+  { key: 'encoded', labelKey: 'steps.encoded' },
+  { key: 'errors', labelKey: 'steps.errors' },
+  { key: 'recovered', labelKey: 'steps.recovered' },
 ];
 
 @Component({
   selector: 'app-step-progress',
-  imports: [],
+  imports: [TranslatePipe],
   templateUrl: './step-progress.html',
   styleUrl: './step-progress.scss',
 })

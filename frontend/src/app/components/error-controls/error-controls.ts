@@ -1,4 +1,5 @@
 import { Component, input, output } from '@angular/core';
+import { TranslatePipe } from '../../pipes/translate.pipe';
 import { SimulationConfig } from '../../models/simulation.models';
 
 type ErrorTypeKey =
@@ -6,7 +7,7 @@ type ErrorTypeKey =
 
 @Component({
   selector: 'app-error-controls',
-  imports: [],
+  imports: [TranslatePipe],
   templateUrl: './error-controls.html',
   styleUrl: './error-controls.scss',
 })
@@ -14,27 +15,37 @@ export class ErrorControls {
   config = input.required<SimulationConfig>();
   configChange = output<SimulationConfig>();
 
-  errorTypes: { key: ErrorTypeKey; label: string; errorType: string; desc: string }[] = [
+  errorTypes: { key: ErrorTypeKey; labelKey: string; errorType: string; descKey: string }[] = [
     {
       key: 'enableSubstitution',
-      label: 'Substitution',
+      labelKey: 'errorControls.substitution.label',
       errorType: 'substitution',
-      desc: 'Replace one base with another',
+      descKey: 'errorControls.substitution.desc',
     },
     {
       key: 'enableInsertion',
-      label: 'Insertion',
+      labelKey: 'errorControls.insertion.label',
       errorType: 'insertion',
-      desc: 'Insert an extra base',
+      descKey: 'errorControls.insertion.desc',
     },
     {
       key: 'enableDeletion',
-      label: 'Deletion',
+      labelKey: 'errorControls.deletion.label',
       errorType: 'deletion',
-      desc: 'Remove a base from sequence',
+      descKey: 'errorControls.deletion.desc',
     },
-    { key: 'enableBurst', label: 'Burst', errorType: 'burst', desc: 'Multiple consecutive errors' },
-    { key: 'enableDropout', label: 'Dropout', errorType: 'dropout', desc: 'Entire sequence lost' },
+    {
+      key: 'enableBurst',
+      labelKey: 'errorControls.burst.label',
+      errorType: 'burst',
+      descKey: 'errorControls.burst.desc',
+    },
+    {
+      key: 'enableDropout',
+      labelKey: 'errorControls.dropout.label',
+      errorType: 'dropout',
+      descKey: 'errorControls.dropout.desc',
+    },
   ];
 
   update(field: keyof SimulationConfig, value: unknown) {

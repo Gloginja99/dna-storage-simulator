@@ -3,30 +3,33 @@
   <section class="hero">
     <div class="hero-bg"><div class="grid-overlay"></div></div>
     <div class="hero-content">
-      <div class="hero-badge">Bachelor&rsquo;s Thesis &middot; MEAN Stack</div>
-      <h1 class="hero-title">DNA Data Storage<br /><span class="gradient">Simulator</span></h1>
+      <div class="hero-badge">{{ 'home.badge' | translate }}</div>
+      <h1 class="hero-title">
+        {{ 'home.title1' | translate }}<br /><span class="gradient">{{
+          'home.title2' | translate
+        }}</span>
+      </h1>
       <p class="hero-desc">
-        Encode digital data into synthetic DNA sequences. Simulate real-world storage errors. Apply
-        recovery mechanisms. Visualize every step of the process.
+        {{ 'home.desc' | translate }}
       </p>
       <div class="hero-actions">
-        <a routerLink="/simulator" class="btn-primary">Launch Simulator &rarr;</a>
-        <a routerLink="/about" class="btn-outline">Learn More</a>
+        <a routerLink="/simulator" class="btn-primary">{{ 'home.cta.launch' | translate }}</a>
+        <a routerLink="/about" class="btn-outline">{{ 'home.cta.learnMore' | translate }}</a>
       </div>
       <div class="hero-stats">
         <div class="stat">
           <div class="stat-val">5</div>
-          <div class="stat-lbl">Error Types</div>
+          <div class="stat-lbl">{{ 'home.stats.errorTypes' | translate }}</div>
         </div>
         <div class="stat-sep"></div>
         <div class="stat">
           <div class="stat-val">4</div>
-          <div class="stat-lbl">DNA Bases</div>
+          <div class="stat-lbl">{{ 'home.stats.dnaBases' | translate }}</div>
         </div>
         <div class="stat-sep"></div>
         <div class="stat">
           <div class="stat-val">2 bit</div>
-          <div class="stat-lbl">Per Base</div>
+          <div class="stat-lbl">{{ 'home.stats.perBase' | translate }}</div>
         </div>
       </div>
     </div>
@@ -47,16 +50,15 @@
   <section class="how">
     <div class="how-container">
       <div class="section-header">
-        <h2>How It Works</h2>
-        <p>A three-stage pipeline modeling the full DNA storage lifecycle</p>
+        <h2>{{ 'home.how.title' | translate }}</h2>
+        <p>{{ 'home.how.subtitle' | translate }}</p>
       </div>
       <div class="steps-grid">
         <div class="step-card">
           <div class="step-num">01</div>
-          <h3>Encode</h3>
+          <h3>{{ 'home.how.encode.title' | translate }}</h3>
           <p>
-            Text is converted to binary (ASCII) and each 2-bit pair maps to a DNA base. Each
-            character becomes a 4-base strand.
+            {{ 'home.how.encode.desc' | translate }}
           </p>
           <div class="step-demo">
             <span class="demo-char">&quot;H&quot;</span>
@@ -71,28 +73,26 @@
         </div>
         <div class="step-card">
           <div class="step-num step-num-err">02</div>
-          <h3>Simulate Errors</h3>
+          <h3>{{ 'home.how.errors.title' | translate }}</h3>
           <p>
-            Inject realistic DNA storage errors: substitutions, insertions, deletions, burst errors,
-            and sequence dropouts.
+            {{ 'home.how.errors.desc' | translate }}
           </p>
           <div class="error-tags-grid">
-            <span class="etag et-sub">Substitution</span>
-            <span class="etag et-ins">Insertion</span>
-            <span class="etag et-del">Deletion</span>
-            <span class="etag et-bur">Burst</span>
-            <span class="etag et-drop">Dropout</span>
+            <span class="etag et-sub">{{ 'errorTypes.substitution' | translate }}</span>
+            <span class="etag et-ins">{{ 'errorTypes.insertion' | translate }}</span>
+            <span class="etag et-del">{{ 'errorTypes.deletion' | translate }}</span>
+            <span class="etag et-bur">{{ 'errorTypes.burst' | translate }}</span>
+            <span class="etag et-drop">{{ 'errorTypes.dropout' | translate }}</span>
           </div>
         </div>
         <div class="step-card">
           <div class="step-num step-num-rec">03</div>
-          <h3>Recover</h3>
+          <h3>{{ 'home.how.recover.title' | translate }}</h3>
           <p>
-            Apply error detection and correction. Analyze recovery rates, compare original vs.
-            recovered sequences, and review statistics.
+            {{ 'home.how.recover.desc' | translate }}
           </p>
           <div class="recovery-bar-demo">
-            <div class="rbd-label">Recovery Rate</div>
+            <div class="rbd-label">{{ 'home.how.recover.rateLabel' | translate }}</div>
             <div class="rbd-bar"><div class="rbd-fill"></div></div>
             <div class="rbd-pct">~87%</div>
           </div>
@@ -105,8 +105,8 @@
   <section class="bases">
     <div class="bases-container">
       <div class="section-header">
-        <h2>DNA Base Encoding</h2>
-        <p>Each ASCII character (8 bits) maps to 4 DNA bases at 2 bits per base</p>
+        <h2>{{ 'home.bases.title' | translate }}</h2>
+        <p>{{ 'home.bases.subtitle' | translate }}</p>
       </div>
       <div class="bases-grid">
         @for (b of baseLegend; track b.base) {
@@ -126,9 +126,9 @@
   <!-- CTA -->
   <section class="cta">
     <div class="cta-container">
-      <h2>Start exploring DNA data storage</h2>
-      <p>Encode your own text, inject errors, and see how recovery mechanisms work.</p>
-      <a routerLink="/simulator" class="btn-primary">Open Simulator &rarr;</a>
+      <h2>{{ 'home.cta2.title' | translate }}</h2>
+      <p>{{ 'home.cta2.desc' | translate }}</p>
+      <a routerLink="/simulator" class="btn-primary">{{ 'home.cta2.button' | translate }}</a>
     </div>
   </section>
 </div>

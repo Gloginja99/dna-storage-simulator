@@ -8,12 +8,41 @@
       <span class="logo-text">DNA<strong>Sim</strong></span>
     </a>
     <div class="nav-links">
-      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
-        >Home</a
-      >
-      <a routerLink="/simulator" routerLinkActive="active">Simulator</a>
-      <a routerLink="/about" routerLinkActive="active">About</a>
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">{{
+        'nav.home' | translate
+      }}</a>
+      <a routerLink="/simulator" routerLinkActive="active">{{ 'nav.simulator' | translate }}</a>
+      @if (isLoggedIn()) {
+        <a routerLink="/history" routerLinkActive="active">{{ 'nav.history' | translate }}</a>
+      }
+      <a routerLink="/about" routerLinkActive="active">{{ 'nav.about' | translate }}</a>
     </div>
-    <a routerLink="/simulator" class="btn-launch">Launch Simulator &rarr;</a>
+    <div class="lang-switch">
+      <button
+        type="button"
+        class="lang-btn"
+        [class.active]="currentLang() === 'sr'"
+        (click)="setLang('sr')"
+      >
+        SR
+      </button>
+      <button
+        type="button"
+        class="lang-btn"
+        [class.active]="currentLang() === 'en'"
+        (click)="setLang('en')"
+      >
+        EN
+      </button>
+    </div>
+    @if (isLoggedIn()) {
+      <span class="nav-username">{{ currentUser()?.username }}</span>
+      <button type="button" class="btn-outline-sm" (click)="logout()">
+        {{ 'nav.logout' | translate }}
+      </button>
+    } @else {
+      <a routerLink="/login" class="btn-outline-sm">{{ 'nav.login' | translate }}</a>
+      <a routerLink="/register" class="btn-launch">{{ 'nav.register' | translate }}</a>
+    }
   </div>
 </nav>

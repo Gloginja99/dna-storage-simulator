@@ -390,3 +390,68 @@
     color: #22c55e;
   }
 }
+
+.save-hint {
+  font-size: 0.8rem;
+  color: #64748b;
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 15, 30, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+}
+
+.modal-card {
+  width: 100%;
+  max-width: 380px;
+  background: #111827;
+  border: 1px solid #1e293b;
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+.modal-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #e2e8f0;
+  margin-bottom: 1rem;
+}
+
+.modal-input {
+  width: 100%;
+  background: #0a0f1e;
+  border: 1px solid #2d3748;
+  border-radius: 8px;
+  padding: 0.625rem 0.75rem;
+  font-size: 0.9rem;
+  color: #e2e8f0;
+  font-family: inherit;
+  margin-bottom: 1.25rem;
+
+  &:focus {
+    outline: none;
+    border-color: #22d3ee;
+  }
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.625rem;
+}
+
+.modal-success {
+  padding: 0.75rem;
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.25);
+  border-radius: 8px;
+  color: #22c55e;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-align: center;
+}

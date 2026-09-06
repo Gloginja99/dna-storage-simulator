@@ -1,9 +1,10 @@
 import { Component, input, computed } from '@angular/core';
+import { TranslatePipe } from '../../pipes/translate.pipe';
 import { ErrorType, RecoveryResult, SimulationMetrics } from '../../models/simulation.models';
 
 @Component({
   selector: 'app-recovery-panel',
-  imports: [],
+  imports: [TranslatePipe],
   templateUrl: './recovery-panel.html',
   styleUrl: './recovery-panel.scss',
 })
