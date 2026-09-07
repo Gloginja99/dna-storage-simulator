@@ -1,9 +1,11 @@
 import mongoose from "mongoose";
 
 export async function connectDatabase(): Promise<void> {
-  const uri =
-    process.env.MONGODB_URI ??
-    "mongodb://127.0.0.1:27017/dna-storage-simulator";
+  const uri = process.env.MONGODB_URI?.trim();
+
+  if (!uri) {
+    throw new Error("Set MONGODB_URI in backend/.env before starting the backend.");
+  }
 
   mongoose.connection.on("connected", () => {
     console.log("MongoDB connected");

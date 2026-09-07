@@ -1,3 +1,4 @@
+import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Service, computed, inject, signal } from '@angular/core';
 import { Observable, tap } from 'rxjs';
@@ -20,7 +21,7 @@ function readStoredUser(): AuthUser | null {
 @Service()
 export class AuthService {
   private readonly http = inject(HttpClient);
-  private readonly apiBase = 'http://localhost:3000/api/auth';
+  private readonly apiBase = environment.backendUrl + '/api/auth';
 
   readonly currentUser = signal<AuthUser | null>(readStoredUser());
   readonly isLoggedIn = computed(() => this.currentUser() !== null);

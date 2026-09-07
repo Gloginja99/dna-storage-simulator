@@ -1,3 +1,4 @@
+import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Service, inject } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -11,7 +12,7 @@ interface EncodeResponse {
 @Service()
 export class DnaEncoder {
   private readonly http = inject(HttpClient);
-  private readonly apiBase = 'http://localhost:3000/api/simulation';
+  private readonly apiBase = environment.backendUrl + '/api/simulation';
 
   encode(text: string): Observable<EncodeResponse> {
     return this.http.post<EncodeResponse>(`${this.apiBase}/encode`, { text });

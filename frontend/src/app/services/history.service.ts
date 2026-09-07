@@ -1,3 +1,4 @@
+import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Service, inject } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -10,7 +11,7 @@ import {
 @Service()
 export class HistoryService {
   private readonly http = inject(HttpClient);
-  private readonly apiBase = 'http://localhost:3000/api/history';
+  private readonly apiBase = environment.backendUrl + '/api/history';
 
   save(payload: SaveSimulationPayload): Observable<SavedSimulationSummary> {
     return this.http.post<SavedSimulationSummary>(this.apiBase, payload);

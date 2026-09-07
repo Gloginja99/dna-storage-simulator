@@ -1,13 +1,14 @@
 import express, { Request, Response, NextFunction } from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import path from "node:path";
 import { connectDatabase } from "./config/database";
 import { healthRouter } from "./routes/health.routes";
 import { simulationRouter } from "./routes/simulation.routes";
 import { authRouter } from "./routes/auth.routes";
 import { historyRouter } from "./routes/history.routes";
 
-dotenv.config();
+dotenv.config({ path: path.resolve(__dirname, "../.env") });
 
 const app = express();
 const PORT = Number(process.env.PORT ?? 3000);
