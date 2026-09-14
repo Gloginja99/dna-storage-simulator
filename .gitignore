@@ -1,12 +1,12 @@
-# Dependencies
+# Zavisnosti
 node_modules/
 
-# Environment files
+# Fajlovi promenljivih okruženja
 .env
 .env.local
 .env.example
 
-# OS files
+# Fajlovi operativnog sistema
 .DS_Store
 Thumbs.db
 
@@ -17,6 +17,6 @@ Thumbs.db
 !.vscode/launch.json
 !.vscode/extensions.json
 
-# Logs
+# Dnevnici
 npm-debug.log*
 yarn-error.log*

@@ -19,6 +19,7 @@ import {
   DnaStrand,
   ErrorEvent,
   RecoveryResult,
+  RecoveryAlgorithm,
   ErrorType,
 } from '../../models/simulation.models';
 
@@ -56,6 +57,8 @@ export class Simulator implements OnInit {
   errorEvents = signal<ErrorEvent[]>([]);
   metrics = signal<SimulationMetrics | null>(null);
   recoveryResult = signal<RecoveryResult | null>(null);
+  recoveryAlgorithm = signal<RecoveryAlgorithm>('levenshtein-consensus');
+  readonly recoveryAlgorithms: RecoveryAlgorithm[] = ['levenshtein-consensus', 'needleman-wunsch'];
   erroneousText = signal('');
   requestPending = signal(false);
   apiError = signal<string | null>(null);
@@ -135,7 +138,7 @@ export class Simulator implements OnInit {
 
     try {
       const response = await firstValueFrom(
-        this.recovery.recover(this.erroneousStrands(), this.encodedStrands()),
+        this.recovery.recover(this.erroneousStrands(), this.encodedStrands(), this.recoveryAlgorithm()),
       );
       this.recoveryResult.set(response);
       this.step.set('recovered');
@@ -191,7 +194,8 @@ export class Simulator implements OnInit {
         this.encodedStrands.set(detail.encodedStrands);
         this.erroneousStrands.set(detail.erroneousStrands);
         this.erroneousText.set(detail.erroneousText);
-        this.recoveryResult.set({
+        this.recoveryAlgorithm.set(detail.recoveryResult?.algorithm ?? 'levenshtein-consensus');
+        this.recoveryResult.set(detail.recoveryResult ?? {
           strands: detail.erroneousStrands,
           corrections: detail.corrections,
           recoveredText: detail.recoveredText,
@@ -232,6 +236,7 @@ export class Simulator implements OnInit {
         encodedStrands: this.encodedStrands(),
         erroneousStrands: this.erroneousStrands(),
         erroneousText: this.erroneousText(),
+        recoveryResult: recovery,
         recoveredText: recovery.recoveredText,
         corrections: recovery.corrections,
         successRate: recovery.successRate,

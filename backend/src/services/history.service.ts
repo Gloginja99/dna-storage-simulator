@@ -33,6 +33,7 @@ export class HistoryService {
       encodedStrands: body.encodedStrands,
       erroneousStrands: body.erroneousStrands,
       erroneousText: body.erroneousText,
+      recoveryResult: body.recoveryResult,
       recoveredText: body.recoveredText,
       corrections: body.corrections,
       successRate: body.successRate,
@@ -66,6 +67,7 @@ export class HistoryService {
       encodedStrands: doc.encodedStrands,
       erroneousStrands: doc.erroneousStrands,
       erroneousText: doc.erroneousText,
+      recoveryResult: doc.recoveryResult,
       recoveredText: doc.recoveredText,
       corrections: doc.corrections,
     };

@@ -3,7 +3,7 @@ import { I18nService } from '../services/i18n.service';
 
 @Pipe({
   name: 'translate',
-  pure: false, // must re-run when the active language signal changes
+  pure: false, // mora ponovo da se izvrši kada se promeni signal aktivnog jezika
 })
 export class TranslatePipe implements PipeTransform {
   private readonly i18n = inject(I18nService);

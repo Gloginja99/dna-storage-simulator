@@ -8,13 +8,13 @@ type TranslationKey = string;
 type Translations = Record<TranslationKey, string>;
 
 const SR: Translations = {
-  // Nav
+  // Navigacija
   'nav.home': 'Početna',
   'nav.simulator': 'Simulator',
   'nav.about': 'O projektu',
   'nav.launch': 'Pokreni simulator →',
 
-  // Home - hero
+  // Početna stranica - uvodni odeljak
   'home.badge': 'Diplomski rad · MEAN Stack',
   'home.title1': 'Skladištenje podataka u DNK',
   'home.title2': 'Simulator',
@@ -26,7 +26,7 @@ const SR: Translations = {
   'home.stats.dnaBases': 'DNK baze',
   'home.stats.perBase': 'po bazi',
 
-  // Home - how it works
+  // Početna stranica - način rada
   'home.how.title': 'Kako funkcioniše',
   'home.how.subtitle': 'Trostepeni proces koji modeluje ceo životni ciklus skladištenja u DNK',
   'home.how.encode.title': 'Enkodiranje',
@@ -40,17 +40,17 @@ const SR: Translations = {
     'Primenjujemo detekciju i korekciju grešaka. Analiziramo stopu oporavka, upoređujemo originalne i oporavljene sekvence i pregledamo statistiku.',
   'home.how.recover.rateLabel': 'Stopa oporavka',
 
-  // Home - base encoding
+  // Početna stranica - kodiranje bazama
   'home.bases.title': 'DNK kodiranje baza',
   'home.bases.subtitle': 'Svaki ASCII karakter (8 bita) se mapira na 4 DNK baze, po 2 bita po bazi',
 
-  // Home - CTA
+  // Početna stranica - poziv na akciju
   'home.cta2.title': 'Počni istraživanje skladištenja podataka u DNK',
   'home.cta2.desc':
     'Enkodiraj sopstveni tekst, unesi greške i vidi kako funkcionišu mehanizmi oporavka.',
   'home.cta2.button': 'Otvori simulator →',
 
-  // About
+  // O projektu
   'about.badge': 'Diplomski rad',
   'about.title': 'O ovom projektu',
   'about.subtitle':
@@ -98,7 +98,7 @@ const SR: Translations = {
   'about.status.history': 'Istorija simulacija',
   'about.cta': 'Isprobaj simulator →',
 
-  // Simulator page
+  // Stranica simulatora
   'simulator.title': 'Simulator skladištenja u DNK',
   'simulator.subtitle':
     'Enkodiraj tekst u DNK sekvence, simuliraj greške i primeni mehanizme oporavka',
@@ -140,7 +140,7 @@ const SR: Translations = {
   'simulator.step4.back': '← Nazad na greške',
   'simulator.step4.newSimulation': 'Nova simulacija',
 
-  // Error controls
+  // Kontrole grešaka
   'errorControls.title': 'Podešavanje grešaka',
   'errorControls.rateLabel': 'Stopa greške',
   'errorControls.typesLabel': 'Tipovi grešaka',
@@ -156,7 +156,14 @@ const SR: Translations = {
   'errorControls.dropout.label': 'Gubitak sekvence',
   'errorControls.dropout.desc': 'Ceo lanac je izgubljen',
 
-  // Recovery panel
+  // Panel rezultata oporavka
+  'recovery.choose': 'Metoda oporavka',
+  'recovery.levenshtein-consensus': 'Leven\u0161tajnov konsenzus',
+  'recovery.needleman-wunsch': 'Needleman-Wunsch + konsenzus',
+  'recovery.sameReads': 'Promena metode koristi ista o\u0161te\u0107ena \u010ditanja. Rezultat se menja tek kada pokrene\u0161 oporavak.',
+  'recoveryPanel.method': 'Levenštajnov konsenzus: rekonstrukcija iz nezavisno oštećenih kopija.',
+  'recoveryPanel.readsNote': 'Nove simulacije koriste 7 čitanja po lancu. Prikazane greške i metrike odnose se na prvo čitanje. Korekcije broje izmene prvog čitanja do konsenzusa; nisu garancija tačnosti. Neodređeni lanci prikazuju se kao ?.',
+  'recoveryPanel.unresolved': 'Neodređeni lanci',
   'recoveryPanel.resultsTitle': 'Rezultati oporavka',
   'recoveryPanel.originalText': 'Originalni tekst',
   'recoveryPanel.recoveredText': 'Oporavljeni tekst',
@@ -169,29 +176,29 @@ const SR: Translations = {
   'recoveryPanel.errorRate': 'Stopa grešaka',
   'recoveryPanel.correctionsLabel': 'Korekcije',
 
-  // Step progress
+  // Napredak kroz korake
   'steps.input': 'Unos',
   'steps.encoded': 'Enkodirano',
   'steps.errors': 'Greške',
   'steps.recovered': 'Oporavljeno',
 
-  // Error type labels (used dynamically)
+  // Oznake tipova grešaka (koriste se dinamički)
   'errorTypes.substitution': 'Supstitucija',
   'errorTypes.insertion': 'Insercija',
   'errorTypes.deletion': 'Delecija',
   'errorTypes.burst': 'Grupna greška',
   'errorTypes.dropout': 'Gubitak sekvence',
 
-  // DNA sequence viewer
+  // Prikaz DNK sekvenci
   'viewer.empty': 'Nema sekvence za prikaz',
 
-  // Nav auth
+  // Navigacija za prijavu i registraciju
   'nav.login': 'Prijava',
   'nav.register': 'Registracija',
   'nav.logout': 'Odjava',
   'nav.history': 'Istorija',
 
-  // Auth pages
+  // Stranice za prijavu i registraciju
   'auth.login.title': 'Prijavi se',
   'auth.login.subtitle': 'Prijavi se da bi sačuvao i pregledao svoje simulacije',
   'auth.login.email': 'Email',
@@ -209,7 +216,7 @@ const SR: Translations = {
   'auth.register.loginLink': 'Prijavi se',
   'auth.error.generic': 'Nešto je pošlo po zlu. Pokušaj ponovo.',
 
-  // History page
+  // Stranica istorije
   'history.title': 'Moje simulacije',
   'history.subtitle': 'Pregledaj i ponovo pokreni prethodno sačuvane simulacije',
   'history.empty': 'Još uvek nemaš sačuvanih simulacija.',
@@ -219,7 +226,7 @@ const SR: Translations = {
   'history.successRate': 'Stopa oporavka',
   'history.createdAt': 'Sačuvano',
 
-  // Save simulation (in simulator)
+  // Čuvanje simulacije (u simulatoru)
   'save.button': 'Sačuvaj simulaciju',
   'save.loginRequired': 'Prijavi se da bi sačuvao simulacije',
   'save.modalTitle': 'Sačuvaj simulaciju',
@@ -367,6 +374,13 @@ const EN: Translations = {
   'errorControls.dropout.label': 'Dropout',
   'errorControls.dropout.desc': 'Entire sequence lost',
 
+  'recovery.choose': 'Recovery method',
+  'recovery.levenshtein-consensus': 'Levenshtein consensus',
+  'recovery.needleman-wunsch': 'Needleman-Wunsch + consensus',
+  'recovery.sameReads': 'Changing the method uses the same noisy reads. Run recovery to update the result.',
+  'recoveryPanel.method': 'Levenshtein consensus: reconstruction from independently corrupted copies.',
+  'recoveryPanel.readsNote': 'New simulations use 7 reads per strand. Displayed errors and metrics describe the first read. Corrections count edits from the first read to consensus; they do not guarantee accuracy. Unresolved strands appear as ?.',
+  'recoveryPanel.unresolved': 'Unresolved strands',
   'recoveryPanel.resultsTitle': 'Recovery Results',
   'recoveryPanel.originalText': 'Original Text',
   'recoveryPanel.recoveredText': 'Recovered Text',
@@ -392,13 +406,13 @@ const EN: Translations = {
 
   'viewer.empty': 'No sequence to display',
 
-  // Nav auth
+  // Navigacija za prijavu i registraciju
   'nav.login': 'Login',
   'nav.register': 'Register',
   'nav.logout': 'Logout',
   'nav.history': 'History',
 
-  // Auth pages
+  // Stranice za prijavu i registraciju
   'auth.login.title': 'Log In',
   'auth.login.subtitle': 'Log in to save and review your simulations',
   'auth.login.email': 'Email',
@@ -416,7 +430,7 @@ const EN: Translations = {
   'auth.register.loginLink': 'Log In',
   'auth.error.generic': 'Something went wrong. Please try again.',
 
-  // History page
+  // Stranica istorije
   'history.title': 'My Simulations',
   'history.subtitle': 'Review and re-run your previously saved simulations',
   'history.empty': "You don't have any saved simulations yet.",
@@ -426,7 +440,7 @@ const EN: Translations = {
   'history.successRate': 'Recovery Rate',
   'history.createdAt': 'Saved',
 
-  // Save simulation (in simulator)
+  // Čuvanje simulacije (u simulatoru)
   'save.button': 'Save Simulation',
   'save.loginRequired': 'Log in to save simulations',
   'save.modalTitle': 'Save Simulation',

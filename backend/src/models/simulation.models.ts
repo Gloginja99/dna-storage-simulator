@@ -1,3 +1,5 @@
+export type RecoveryAlgorithm = 'levenshtein-consensus' | 'needleman-wunsch';
+
 export type DnaBase = 'A' | 'T' | 'C' | 'G';
 
 export type ErrorType = 'substitution' | 'insertion' | 'deletion' | 'burst' | 'dropout';
@@ -7,6 +9,8 @@ export interface DnaStrand {
   charIndex: number;
   originalChar: string;
   bases: DnaBase[];
+  /** Nezavisno oštećena čitanja, uključujući prvo prikazano čitanje. */
+  reads?: DnaBase[][];
   originalBases: DnaBase[];
   hasError: boolean;
   errorTypes: ErrorType[];
@@ -45,4 +49,6 @@ export interface RecoveryResult {
   corrections: number;
   recoveredText: string;
   successRate: number;
+  algorithm?: RecoveryAlgorithm;
+  unresolvedStrands?: number;
 }

@@ -2,6 +2,14 @@
   <div class="panel">
     <div class="panel-section">
       <h3 class="panel-title">{{ 'recoveryPanel.resultsTitle' | translate }}</h3>
+      @if (result()!.algorithm) {
+        <p>{{ 'recovery.' + result()!.algorithm | translate }}</p>
+        <p>{{ 'recoveryPanel.readsNote' | translate }}</p>
+        <div class="result-row">
+          <span class="result-label">{{ 'recoveryPanel.unresolved' | translate }}</span>
+          <span class="result-value">{{ result()!.unresolvedStrands }}</span>
+        </div>
+      }
       <div class="result-row">
         <span class="result-label">{{ 'recoveryPanel.originalText' | translate }}</span>
         <span class="result-value mono">{{ originalText() }}</span>

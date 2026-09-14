@@ -1,11 +1,12 @@
 import { Schema, model, Document, Types } from "mongoose";
-import { DnaBase, ErrorType, SimulationConfig } from "./simulation.models";
+import { DnaBase, ErrorType, SimulationConfig, RecoveryResult } from "./simulation.models";
 
 interface SavedDnaStrand {
   id: string;
   charIndex: number;
   originalChar: string;
   bases: DnaBase[];
+  reads?: DnaBase[][];
   originalBases: DnaBase[];
   hasError: boolean;
   errorTypes: ErrorType[];
@@ -20,6 +21,7 @@ export interface SavedSimulationDocument extends Document {
   encodedStrands: SavedDnaStrand[];
   erroneousStrands: SavedDnaStrand[];
   erroneousText: string;
+  recoveryResult?: RecoveryResult;
   recoveredText: string;
   corrections: number;
   successRate: number;
@@ -32,6 +34,7 @@ const strandSchema = new Schema<SavedDnaStrand>(
     charIndex: Number,
     originalChar: String,
     bases: [String],
+    reads: { type: [[String]], default: undefined },
     originalBases: [String],
     hasError: Boolean,
     errorTypes: [String],
@@ -52,6 +55,17 @@ const savedSimulationSchema = new Schema<SavedSimulationDocument>({
   encodedStrands: { type: [strandSchema], default: [] },
   erroneousStrands: { type: [strandSchema], default: [] },
   erroneousText: { type: String, default: "" },
+  recoveryResult: {
+    type: new Schema<RecoveryResult>({
+      strands: [strandSchema],
+      corrections: Number,
+      recoveredText: String,
+      successRate: Number,
+      algorithm: { type: String, enum: ['levenshtein-consensus', 'needleman-wunsch'] },
+      unresolvedStrands: Number,
+    }, { _id: false }),
+    default: undefined,
+  },
   recoveredText: { type: String, default: "" },
   corrections: { type: Number, default: 0 },
   successRate: { type: Number, default: 0 },

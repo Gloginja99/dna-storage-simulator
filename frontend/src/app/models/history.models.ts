@@ -1,4 +1,4 @@
-import { DnaStrand, SimulationConfig } from './simulation.models';
+import { DnaStrand, SimulationConfig, RecoveryResult } from './simulation.models';
 
 export interface SaveSimulationPayload {
   name: string;
@@ -7,6 +7,7 @@ export interface SaveSimulationPayload {
   encodedStrands: DnaStrand[];
   erroneousStrands: DnaStrand[];
   erroneousText: string;
+  recoveryResult?: RecoveryResult;
   recoveredText: string;
   corrections: number;
   successRate: number;
@@ -25,6 +26,7 @@ export interface SavedSimulationDetail extends SavedSimulationSummary {
   encodedStrands: DnaStrand[];
   erroneousStrands: DnaStrand[];
   erroneousText: string;
+  recoveryResult?: RecoveryResult;
   recoveredText: string;
   corrections: number;
 }

@@ -4,9 +4,13 @@ import {
   ErrorEvent,
   ErrorType,
   RecoveryResult,
+  RecoveryAlgorithm,
   SimulationConfig,
   SimulationMetrics,
 } from '../models/simulation.models';
+
+import { consensus, levenshtein } from './consensus';
+import { needlemanWunschConsensus } from './needleman-wunsch';
 
 const BASES: DnaBase[] = ['A', 'T', 'C', 'G'];
 
@@ -62,6 +66,23 @@ export class SimulationService {
     strands: DnaStrand[],
     config: SimulationConfig,
   ): { strands: DnaStrand[]; events: ErrorEvent[]; metrics: SimulationMetrics } {
+    // Svako čitanje nezavisno prolazi kroz isti kanal grešaka.
+    // Zadržavamo događaje i metrike prvog čitanja za postojeće vizuelno poređenje.
+    const first = this.simulateRead(strands, config);
+    for (const strand of first.strands) strand.reads = [[...strand.bases]];
+    for (let copy = 1; copy < 7; copy++) {
+      const next = this.simulateRead(strands, config);
+      next.strands.forEach((strand, index) => {
+        first.strands[index].reads!.push([...strand.bases]);
+      });
+    }
+    return first;
+  }
+
+  private simulateRead(
+    strands: DnaStrand[],
+    config: SimulationConfig,
+  ): { strands: DnaStrand[]; events: ErrorEvent[]; metrics: SimulationMetrics } {
     const result: DnaStrand[] = strands.map((strand) => ({
       ...strand,
       bases: [...strand.bases],
@@ -84,7 +105,7 @@ export class SimulationService {
       if (config.enableDropout && Math.random() < config.errorRate * 0.15) {
         events.push({ type: 'dropout', strandIndex: si, position: 0, length: 4 });
         byType.dropout++;
-        strand.bases = strand.bases.map(() => this.randomBase());
+        strand.bases = []; // Izgubljeno čitanje je prazno, umesto da sadrži nasumične DNK baze.
         strand.hasError = true;
         strand.errorTypes = ['dropout'];
         continue;
@@ -178,52 +199,38 @@ export class SimulationService {
     };
   }
 
-  recoverStrands(erroneousStrands: DnaStrand[], originalStrands: DnaStrand[]): RecoveryResult {
+  recoverStrands(erroneousStrands: DnaStrand[], originalStrands: DnaStrand[], algorithm: RecoveryAlgorithm = 'levenshtein-consensus'): RecoveryResult {
     let corrections = 0;
-    let correctChars = 0;
-
-    const strands: DnaStrand[] = erroneousStrands.map((strand, index) => {
-      const original = originalStrands[index];
-      let bases = [...strand.bases];
-
-      if (bases.length > 4) {
-        bases = bases.slice(0, 4);
-        corrections++;
-      } else {
-        while (bases.length < 4) {
-          bases.push('A');
-          corrections++;
-        }
-      }
-
-      const corrected = bases.map((base, i) => {
-        if (original.bases[i] && base !== original.bases[i] && Math.random() < 0.72) {
-          corrections++;
-          return original.bases[i];
-        }
-        return base;
-      }) as DnaBase[];
-
-      const binary = corrected.map((base) => REVERSE_MAP[base]).join('');
-      const code = parseInt(binary, 2);
-      const recovered = code >= 32 && code <= 126 ? String.fromCharCode(code) : '?';
-      if (recovered === original.originalChar) correctChars++;
-
+    let unresolvedStrands = 0;
+    const strands = erroneousStrands.map((strand): DnaStrand => {
+      // Stare sačuvane simulacije imaju samo jedno čitanje. Ne generišemo nova čitanja
+      // tokom oporavka niti koristimo originalBases/originalChar za određivanje rezultata.
+      const reconstruct = algorithm === 'needleman-wunsch' ? needlemanWunschConsensus : consensus;
+      const corrected = reconstruct(strand.reads ?? [strand.bases]);
+      if (!corrected) unresolvedStrands++;
+      else corrections += levenshtein(strand.bases, corrected);
       return {
         ...strand,
-        bases: corrected,
-        hasError: false,
+        bases: corrected ?? [],
+        hasError: corrected === null,
         errorTypes: [],
       };
     });
 
-    const recoveredText = this.decodeStrands(strands);
-
+    // Original se koristi samo POSLE rekonstrukcije, radi procene tačnosti.
+    const recoveredById = new Map(strands.map((strand) => [strand.id, strand]));
+    const correctChars = originalStrands.filter((original) => {
+      const recovered = recoveredById.get(original.id);
+      return recovered && recovered.bases.length === original.bases.length &&
+        recovered.bases.every((base, i) => base === original.bases[i]);
+    }).length;
     return {
       strands,
       corrections,
-      recoveredText,
+      recoveredText: this.decodeStrands(strands),
       successRate: originalStrands.length > 0 ? correctChars / originalStrands.length : 0,
+      algorithm,
+      unresolvedStrands,
     };
   }
 

@@ -14,7 +14,24 @@
     }
 
     <div class="sim-content">
-      <!-- Step 1: Input -->
+      @if ((step() === 'errors' || step() === 'recovered') && erroneousStrands().length > 0) {
+        <div class="recovery-options">
+          <label for="recovery-algorithm">{{ 'recovery.choose' | translate }}</label>
+          <select id="recovery-algorithm" [value]="recoveryAlgorithm()"
+            [disabled]="requestPending()" (change)="recoveryAlgorithm.set($any($event.target).value)">
+            @for (algorithm of recoveryAlgorithms; track algorithm) {
+              <option [value]="algorithm">{{ 'recovery.' + algorithm | translate }}</option>
+            }
+          </select>
+          <p>{{ 'recovery.sameReads' | translate }}</p>
+          @if (step() === 'recovered') {
+            <button class="btn btn-success" (click)="onRecover()" [disabled]="requestPending()">
+              {{ 'simulator.step3.runRecovery' | translate }}
+            </button>
+          }
+        </div>
+      }
+      <!-- Korak 1: Unos -->
       @if (step() === 'input') {
         <div class="step-panel">
           <h2 class="step-heading">{{ 'simulator.step1.heading' | translate }}</h2>
@@ -59,7 +76,7 @@
         </div>
       }
 
-      <!-- Step 2: Encoded -->
+      <!-- Korak 2: Kodirano -->
       @if (step() === 'encoded') {
         <div class="step-panel">
           <div class="step-header-row">
@@ -91,11 +108,11 @@
         </div>
       }
 
-      <!-- Step 3: Errors -->
+      <!-- Korak 3: Greške -->
       @if (step() === 'errors') {
         <div class="step-panel">
           @if (erroneousStrands().length === 0) {
-            <!-- Error config view -->
+            <!-- Prikaz podešavanja grešaka -->
             <h2 class="step-heading">{{ 'simulator.step3.heading' | translate }}</h2>
             <p class="step-desc">
               {{ 'simulator.step3.desc' | translate }}
@@ -129,7 +146,7 @@
               </button>
             </div>
           } @else {
-            <!-- Error results view -->
+            <!-- Prikaz rezultata simulacije grešaka -->
             <div class="step-header-row">
               <h2 class="step-heading">{{ 'simulator.step3.resultsHeading' | translate }}</h2>
               @if (metrics()) {
@@ -192,7 +209,7 @@
         </div>
       }
 
-      <!-- Step 4: Recovered -->
+      <!-- Korak 4: Oporavljeno -->
       @if (step() === 'recovered') {
         <div class="step-panel">
           <h2 class="step-heading">{{ 'simulator.step4.heading' | translate }}</h2>

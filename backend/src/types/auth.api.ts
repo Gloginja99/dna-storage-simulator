@@ -1,4 +1,4 @@
-import { DnaStrand, SimulationConfig } from "../models/simulation.models";
+import { DnaStrand, SimulationConfig, RecoveryResult } from "../models/simulation.models";
 
 export interface RegisterRequestBody {
   username: string;
@@ -29,6 +29,7 @@ export interface SaveSimulationRequestBody {
   encodedStrands: DnaStrand[];
   erroneousStrands: DnaStrand[];
   erroneousText: string;
+  recoveryResult?: RecoveryResult;
   recoveredText: string;
   corrections: number;
   successRate: number;
@@ -47,6 +48,7 @@ export interface SavedSimulationDetail extends SavedSimulationSummary {
   encodedStrands: DnaStrand[];
   erroneousStrands: DnaStrand[];
   erroneousText: string;
+  recoveryResult?: RecoveryResult;
   recoveredText: string;
   corrections: number;
 }

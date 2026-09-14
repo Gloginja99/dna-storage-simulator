@@ -2,7 +2,7 @@
   min-height: calc(100vh - 64px);
 }
 
-/* Hero */
+/* Uvodni odeljak */
 .hero {
   position: relative;
   display: grid;
@@ -145,7 +145,7 @@
   background: #1e293b;
 }
 
-/* DNA Visualization */
+/* Vizuelizacija DNK */
 .dna-viz {
   display: flex;
   flex-direction: column;
@@ -213,7 +213,7 @@
   }
 }
 
-/* How it works */
+/* Način rada */
 .how {
   background: rgba(255, 255, 255, 0.01);
   border-top: 1px solid #1e293b;
@@ -420,7 +420,7 @@
   font-family: 'JetBrains Mono', monospace;
 }
 
-/* Base encoding */
+/* Kodiranje bazama */
 .bases {
   padding: 4rem 2rem;
   &-container {
@@ -505,7 +505,7 @@
   color: #64748b;
 }
 
-/* CTA */
+/* Poziv na akciju */
 .cta {
   background: linear-gradient(135deg, rgba(34, 211, 238, 0.05), rgba(167, 139, 250, 0.05));
   border-top: 1px solid #1e293b;

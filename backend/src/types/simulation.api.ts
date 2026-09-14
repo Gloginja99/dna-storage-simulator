@@ -2,6 +2,7 @@ import {
   DnaStrand,
   ErrorEvent,
   RecoveryResult,
+  RecoveryAlgorithm,
   SimulationConfig,
   SimulationMetrics,
 } from '../models/simulation.models';
@@ -28,6 +29,7 @@ export interface SimulateErrorsResponse {
 }
 
 export interface RecoverRequestBody {
+  algorithm?: RecoveryAlgorithm;
   erroneousStrands: DnaStrand[];
   originalStrands: DnaStrand[];
 }

@@ -1,5 +1,5 @@
-/* To learn more about Typescript configuration file: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html. */
-/* To learn more about Angular compiler options: https://angular.dev/reference/configs/angular-compiler-options. */
+/* Više o konfiguracionom fajlu za TypeScript: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html. */
+/* Više o opcijama Angular kompajlera: https://angular.dev/reference/configs/angular-compiler-options. */
 {
   "compileOnSave": false,
   "compilerOptions": {

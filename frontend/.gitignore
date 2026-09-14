@@ -1,6 +1,6 @@
-# See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
+# Više o ignorisanju fajlova: https://docs.github.com/get-started/getting-started-with-git/ignoring-files.
 
-# Compiled output
+# Rezultati prevođenja
 /dist
 /tmp
 /out-tsc
@@ -11,7 +11,7 @@
 npm-debug.log
 yarn-error.log
 
-# IDEs and editors
+# Razvojna okruženja i editori
 .idea/
 .project
 .classpath
@@ -29,7 +29,7 @@ yarn-error.log
 !.vscode/mcp.json
 .history/*
 
-# Miscellaneous
+# Razno
 /.angular/cache
 .sass-cache/
 /connect.lock
@@ -39,9 +39,9 @@ testem.log
 /typings
 __screenshots__/
 
-# System files
+# Sistemski fajlovi
 .DS_Store
 Thumbs.db
 
-# Generated frontend environment
+# Generisana konfiguracija frontend okruženja
 /src/environments/environment.ts
